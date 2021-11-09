@@ -18,16 +18,16 @@ public class StandardGameLogic extends GameLogic {
     }
 
     @Override
-    public int GetSize() {
+    public int getSize() {
         return board.size();
     }
     
     @Override
-    public int GetTile(int x, int y) {
+    public int getTile(int x, int y) {
         return board.get(y).get(x);
     }
 
-    private void MoveUp() {
+    private void moveUp() {
         // this only works for a square board
         for (int x = 0; x < board.size(); x++) {
             List<Integer> col = new ArrayList<Integer>(board.size());
@@ -37,7 +37,7 @@ public class StandardGameLogic extends GameLogic {
                 col.add(board.get(y).get(x));
             }
 
-            CollapseLeft(col);
+            collapseLeft(col);
 
             // set column
             for (int y = 0; y < board.size(); y++) {
@@ -46,7 +46,7 @@ public class StandardGameLogic extends GameLogic {
         }
     }
 
-    private void MoveDown() {
+    private void moveDown() {
         // this only works for a square board
         for (int x = 0; x < board.size(); x++) {
             List<Integer> col = new ArrayList<Integer>(board.size());
@@ -56,7 +56,7 @@ public class StandardGameLogic extends GameLogic {
                 col.add(board.get(y).get(x));
             }
 
-            CollapseLeft(col);
+            collapseLeft(col);
 
             // set column
             for (int y = 0; y < board.size(); y++) {
@@ -65,39 +65,39 @@ public class StandardGameLogic extends GameLogic {
         }
     }
 
-    private void MoveLeft() {
+    private void moveLeft() {
         for (List<Integer> row : board) {
-            CollapseLeft(row);
+            collapseLeft(row);
         }
     }
 
-    private void MoveRight() {
+    private void moveRight() {
         for (List<Integer> row : board) {
             Collections.reverse(row);
-            CollapseLeft(row);
+            collapseLeft(row);
             Collections.reverse(row);
         }
     }
 
     @Override
-    public void Move(Direction d) {
+    public void move(Direction d) {
         switch (d) {
             case Up:
-                MoveUp();
+                moveUp();
                 break;
             case Down:
-                MoveDown();
+                moveDown();
                 break;
             case Left:
-                MoveLeft();
+                moveLeft();
                 break;
             case Right:
-                MoveRight();
+                moveRight();
                 break;
             default:
                 throw new IllegalArgumentException();
         }
 
-        AddNewRandomTile();
+        addNewRandomTile();
     }
 }

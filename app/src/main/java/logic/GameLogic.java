@@ -17,17 +17,17 @@ public abstract class GameLogic {
         UpLeft, UpRight, DownLeft, DownRight
     }
 
-    public abstract void Move(Direction direction) throws IllegalArgumentException;
+    public abstract void move(Direction direction) throws IllegalArgumentException;
 
     public boolean hasEnded() {
         return end;
     }
 
-    public abstract int GetSize();
-    public abstract int GetTile(int x, int y);
+    public abstract int getSize();
+    public abstract int getTile(int x, int y);
     
     // collapse a list from right to left
-    protected void CollapseLeft(List<Integer> list) {
+    protected void collapseLeft(List<Integer> list) {
         final int size = list.size();
         list.removeIf(x -> x == 0); // remove all empty tiles
 
@@ -47,13 +47,13 @@ public abstract class GameLogic {
     }
 
     // return 2 or 4
-    private int NewRandomTile() {
+    private int newRandomTile() {
         return (1 + rand.nextInt(2)) * 2;
     }
 
     // switch a random empty tile for a random new tile (NewRandomTile())
     // if no empty tiles were found, `end` is set to true
-    protected void AddNewRandomTile() {
+    protected void addNewRandomTile() {
         class Vec {
             public int x;
             public int y;
@@ -85,7 +85,7 @@ public abstract class GameLogic {
             Vec selected = emptyTiles.get(rand.nextInt(emptyTiles.size()));
 
             // fill with a new random tile
-            board.get(selected.y).set(selected.x, NewRandomTile());
+            board.get(selected.y).set(selected.x, newRandomTile());
         }
     }
 }

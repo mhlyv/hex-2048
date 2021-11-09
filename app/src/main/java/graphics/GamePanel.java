@@ -11,12 +11,12 @@ public abstract class GamePanel extends JPanel {
         this.gl = gl;
     }
 
-    protected abstract void DrawGame(Graphics g);
+    protected abstract void drawGame(Graphics g);
 
     @Override
     public void paint(Graphics g) {
         System.out.println("paint");
         super.paint(g);
-        DrawGame(g);
+        drawGame(g);
     }
 }
