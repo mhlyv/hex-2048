@@ -5,8 +5,6 @@ import java.util.*;
 // game logic for a game with a square board and square tiles
 public class StandardGameLogic extends GameLogic {
     public StandardGameLogic(int size) {
-        super();
-
         board = new ArrayList<List<Integer>>(size);
         for (int i = 0; i < size; i++) {
             List<Integer> row = new ArrayList<Integer>(size);
@@ -15,6 +13,9 @@ public class StandardGameLogic extends GameLogic {
             }
             board.add(row);
         }
+
+        addNewRandomTile();
+        addNewRandomTile();
     }
 
     @Override
@@ -80,7 +81,7 @@ public class StandardGameLogic extends GameLogic {
     }
 
     @Override
-    public void move(Direction d) {
+    protected void moveBoard(Direction d) {
         switch (d) {
             case Up:
                 moveUp();
@@ -97,7 +98,36 @@ public class StandardGameLogic extends GameLogic {
             default:
                 throw new IllegalArgumentException();
         }
+    }
 
-        addNewRandomTile();
+    @Override
+    public boolean hasEnded() {
+        int size = board.size();
+
+        if (size == 0) {
+            return true;
+        }
+
+        for (int y = 1; y < size; y++) {
+            for (int x = 0; x < size - 1; x++) {
+                int tile = board.get(y).get(x);
+                int tileAbove = board.get(y - 1).get(x);
+                int tileRight = board.get(y).get(x + 1);
+
+                if (tile == 0 || tileAbove == 0 || tileRight == 0 ||
+                    tile == tileAbove || tile == tileRight) {
+                    return false;
+                }
+            }
+
+            int tile = board.get(y).get(size - 1);
+            int tileAbove = board.get(y - 1).get(size - 1);
+
+            if (tile == 0 || tileAbove == 0 || tile == tileAbove) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

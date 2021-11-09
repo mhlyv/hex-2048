@@ -5,36 +5,50 @@ import java.util.*;
 public abstract class GameLogic {
     protected List<List<Integer>> board;
     private Random rand;
-    private boolean end; // true if tha game has ended
 
     GameLogic() {
         rand = new Random();
-        end = false;
     }
 
-    enum Direction {
+    public enum Direction {
         Up, Down, Left, Right,
         UpLeft, UpRight, DownLeft, DownRight
     }
 
-    public abstract void move(Direction direction) throws IllegalArgumentException;
+    protected abstract void moveBoard(Direction d) throws IllegalArgumentException;
 
-    public boolean hasEnded() {
-        return end;
+    public void move(Direction d) {
+        int hash = board.hashCode();
+        moveBoard(d);
+        if (hash != board.hashCode()) {
+            addNewRandomTile();
+        }
     }
+
+    public abstract boolean hasEnded();
 
     public abstract int getSize();
     public abstract int getTile(int x, int y);
+
+    public int getNumberOfTiles() {
+        int n = 0;
+
+        for (List<Integer> row : board) {
+            n += row.size();
+        }
+
+        return n;
+    }
     
     // collapse a list from right to left
     protected void collapseLeft(List<Integer> list) {
-        final int size = list.size();
+        int size = list.size();
         list.removeIf(x -> x == 0); // remove all empty tiles
 
         // from the left, if an element (i) equals the next element (i + 1), remove the
         // next element and multiply the original element by 2.
         for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i) == list.get(i + 1)) {
+            if (list.get(i).equals(list.get(i + 1))) {
                 int removed = list.remove(i + 1);
                 list.set(i, removed * 2);
             }
@@ -78,9 +92,7 @@ public abstract class GameLogic {
             y++;
         }
 
-        if (emptyTiles.size() == 0) {
-            end = true;
-        } else {
+        if (emptyTiles.size() != 0) {
             // select random empty tile
             Vec selected = emptyTiles.get(rand.nextInt(emptyTiles.size()));
 

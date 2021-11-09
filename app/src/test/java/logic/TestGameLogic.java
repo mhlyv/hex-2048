@@ -9,6 +9,8 @@ public class TestGameLogic extends GameLogic {
     @Override public void move(Direction direction) throws IllegalArgumentException { }
     @Override public int getSize() { return 0; }
     @Override public int getTile(int x, int y) { return 0; }
+    @Override protected void moveBoard(Direction d) throws IllegalArgumentException { }
+    @Override public boolean hasEnded() { return false; }
 
     @Test
     public void testCollapseZeroes() {
@@ -26,9 +28,9 @@ public class TestGameLogic extends GameLogic {
 
     @Test
     public void testSingleCollapsable() {
-        List<Integer> list = new ArrayList<>(Arrays.asList(2, 2, 1, 2, 3));
+        List<Integer> list = new ArrayList<>(Arrays.asList(128, 128, 32, 16));
         collapseLeft(list);
-        assertTrue(list.equals(Arrays.asList(4, 1, 2, 3, 0)));
+        assertTrue(list.equals(Arrays.asList(256, 32, 16, 0)));
     }
 
     @Test
