@@ -47,7 +47,7 @@ public abstract class GameLogic {
     }
 
     // return 2 or 4
-    private int newRandomTile() {
+    protected int newRandomTile() {
         return (1 + rand.nextInt(2)) * 2;
     }
 
