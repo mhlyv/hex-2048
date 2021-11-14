@@ -7,7 +7,7 @@ import logic.StandardGameLogic;
 import java.awt.event.KeyEvent;
 
 public class StandardGamePanel extends GamePanel {
-    public StandardGamePanel(int size) {
+    public StandardGamePanel(Integer size) {
         super(new StandardGameLogic(size));
 
         // TODO: temporary
