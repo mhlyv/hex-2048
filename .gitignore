@@ -6,3 +6,4 @@ build
 
 app/bin
 .vscode
+*.dat

@@ -2,15 +2,12 @@ package graphics;
 
 import java.awt.*;
 import logic.StandardGameLogic;
-
-// TODO: temporary
 import java.awt.event.KeyEvent;
 
 public class StandardGamePanel extends GamePanel {
     public StandardGamePanel(Integer size) {
         super(new StandardGameLogic(size));
 
-        // TODO: temporary
         keymap.put(KeyEvent.VK_RIGHT, StandardGameLogic.Direction.Right);
         keymap.put(KeyEvent.VK_LEFT,  StandardGameLogic.Direction.Left);
         keymap.put(KeyEvent.VK_UP,    StandardGameLogic.Direction.Up);

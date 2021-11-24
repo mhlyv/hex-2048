@@ -28,51 +28,41 @@ public class StandardGameLogic extends GameLogic {
         return board.get(y).get(x);
     }
 
-    private void moveUp() {
+    protected void moveUp() {
         // this only works for a square board
         for (int x = 0; x < board.size(); x++) {
-            List<Integer> col = new ArrayList<Integer>(board.size());
+            List<Index> indexes = new ArrayList<>(board.size());
 
             // read column
             for (int y = 0; y < board.size(); y++) {
-                col.add(board.get(y).get(x));
+                indexes.add(new Index(x, y));
             }
 
-            collapseLeft(col);
-
-            // set column
-            for (int y = 0; y < board.size(); y++) {
-                board.get(y).set(x, col.get(y));
-            }
+            collapseLeftIndirect(indexes);
         }
     }
 
-    private void moveDown() {
+    protected void moveDown() {
         // this only works for a square board
         for (int x = 0; x < board.size(); x++) {
-            List<Integer> col = new ArrayList<Integer>(board.size());
+            List<Index> indexes = new ArrayList<>(board.size());
 
             // read column
             for (int y = board.size() - 1; y >= 0; y--) {
-                col.add(board.get(y).get(x));
+                indexes.add(new Index(x, y));
             }
 
-            collapseLeft(col);
-
-            // set column
-            for (int y = 0; y < board.size(); y++) {
-                board.get(y).set(x, col.get(board.size() - y - 1));
-            }
+            collapseLeftIndirect(indexes);
         }
     }
 
-    private void moveLeft() {
+    protected void moveLeft() {
         for (List<Integer> row : board) {
             collapseLeft(row);
         }
     }
 
-    private void moveRight() {
+    protected void moveRight() {
         for (List<Integer> row : board) {
             Collections.reverse(row);
             collapseLeft(row);

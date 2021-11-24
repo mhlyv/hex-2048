@@ -3,6 +3,7 @@ package logic;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
+import java.util.stream.*;
 
 public class TestGameLogic extends GameLogic {
     // empty abstract methods
@@ -13,31 +14,67 @@ public class TestGameLogic extends GameLogic {
     @Override public boolean hasEnded() { return false; }
 
     @Test
-    public void testCollapseZeroes() {
+    public void testCollapseLeft() {
+        board = new ArrayList<>();
+
+        {
+            board.add(new ArrayList<>(Arrays.asList(0, 0, 0)));
+            final int y = board.size() - 1;
+            collapseLeftIndirect(
+                IntStream.range(0, board.get(y).size())
+                .mapToObj(x -> new Index(x, y))
+                .collect(Collectors.toList()));
+            assertTrue("zeroes", board.get(y).equals(Arrays.asList(0, 0, 0)));
+        }
+
+        {
+            board.add(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
+            final int y = board.size() - 1;
+            collapseLeftIndirect(
+                IntStream.range(0, board.get(y).size())
+                .mapToObj(x -> new Index(x, y))
+                .collect(Collectors.toList()));
+            assertTrue("unmodified", board.get(y).equals(Arrays.asList(1, 2, 3, 4, 5)));
+        }
+
+        {
+            board.add(new ArrayList<>(Arrays.asList(128, 128, 32, 16)));
+            final int y = board.size() - 1;
+            collapseLeftIndirect(
+                IntStream.range(0, board.get(y).size())
+                .mapToObj(x -> new Index(x, y))
+                .collect(Collectors.toList()));
+            assertTrue("unmodified", board.get(y).equals(Arrays.asList(256, 32, 16, 0)));
+        }
+
+        {
+            board.add(new ArrayList<>(Arrays.asList(2, 2, 8, 4, 4)));
+            final int y = board.size() - 1;
+            collapseLeftIndirect(
+                IntStream.range(0, board.get(y).size())
+                .mapToObj(x -> new Index(x, y))
+                .collect(Collectors.toList()));
+            assertTrue("multiple collapse", board.get(y).equals(Arrays.asList(4, 8, 8, 0, 0)));
+        }
+    }
+
+    @Test
+    public void testCollapseLeftIndirect() {
         List<Integer> list = new ArrayList<>(Arrays.asList(0, 0, 0));
         collapseLeft(list);
-        assertTrue(list.equals(Arrays.asList(0, 0, 0)));
-    }
+        assertTrue("zeroes", list.equals(Arrays.asList(0, 0, 0)));
 
-    @Test
-    public void testNotCollapsable() {
-        List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+        list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
         collapseLeft(list);
-        assertTrue(list.equals(Arrays.asList(1, 2, 3, 4, 5)));
-    }
+        assertTrue("unmodified", list.equals(Arrays.asList(1, 2, 3, 4, 5)));
 
-    @Test
-    public void testSingleCollapsable() {
-        List<Integer> list = new ArrayList<>(Arrays.asList(128, 128, 32, 16));
+        list = new ArrayList<>(Arrays.asList(128, 128, 32, 16));
         collapseLeft(list);
-        assertTrue(list.equals(Arrays.asList(256, 32, 16, 0)));
-    }
+        assertTrue("single collapse", list.equals(Arrays.asList(256, 32, 16, 0)));
 
-    @Test
-    public void testMultipleCollapsable() {
-        List<Integer> list = new ArrayList<>(Arrays.asList(2, 2, 8, 4, 4));
+        list = new ArrayList<>(Arrays.asList(2, 2, 8, 4, 4));
         collapseLeft(list);
-        assertTrue(list.equals(Arrays.asList(4, 8, 8, 0, 0)));
+        assertTrue("multiple collapse", list.equals(Arrays.asList(4, 8, 8, 0, 0)));
     }
 
     @Test
@@ -57,16 +94,12 @@ public class TestGameLogic extends GameLogic {
     }
 
     @Test
-    public void testAddNewRandomTileFail() {
-        board = new ArrayList<>();
-        addNewRandomTile();
-        assertTrue(hasEnded());
-    }
-
-    @Test
     public void testAddNewRandomTile() {
         board = new ArrayList<>();
         board.add(new ArrayList<>());
+
+        addNewRandomTile();
+
         board.get(0).add(0);
 
         addNewRandomTile();

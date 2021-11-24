@@ -1,13 +1,36 @@
 package logic;
 
+import java.io.*;
 import java.util.*;
+import java.util.stream.*;
     
-public abstract class GameLogic {
+public abstract class GameLogic implements Serializable {
     protected List<List<Integer>> board;
+    protected Deque<List<List<Integer>>> states;
+    protected final int maxUndo = 3;
     private Random rand;
 
     GameLogic() {
         rand = new Random();
+        states = new LinkedList<>();
+    }
+
+    protected class Index {
+        private int x;
+        private int y;
+
+        Index(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int get() {
+            return board.get(y).get(x);
+        }
+
+        public void set(int n) {
+            board.get(y).set(x, n);
+        }
     }
 
     public enum Direction {
@@ -17,10 +40,29 @@ public abstract class GameLogic {
 
     protected abstract void moveBoard(Direction d) throws IllegalArgumentException;
 
+    protected void updateUndo() {
+        // push state of board
+        states.addFirst(board.stream().map(row -> new ArrayList<>(row)).collect(Collectors.toList()));
+
+        while (states.size() > maxUndo) {
+            states.removeLast();
+        }
+    }
+
+    public void undo() {
+        if (states.size() > 0) {
+            board = states.removeFirst();
+        }
+    }
+
     public void move(Direction d) {
-        int hash = board.hashCode();
+        updateUndo();
         moveBoard(d);
-        if (hash != board.hashCode()) {
+        if (states.getFirst().equals(board)) {
+            // if the board didn't change, dont save state
+            states.removeFirst();
+        } else {
+            // if the board changed add new random tile
             addNewRandomTile();
         }
     }
@@ -39,8 +81,7 @@ public abstract class GameLogic {
 
         return n;
     }
-    
-    // collapse a list from right to left
+
     protected void collapseLeft(List<Integer> list) {
         int size = list.size();
         list.removeIf(x -> x == 0); // remove all empty tiles
@@ -60,9 +101,23 @@ public abstract class GameLogic {
         }
     }
 
-    // return 2 or 4
+    // collapse a list from right to left indirectly
+    protected void collapseLeftIndirect(List<Index> indexes) {
+        List<Integer> list = indexes.stream()
+            .map(i -> i.get())
+            .collect(Collectors.toList());
+
+        collapseLeft(list);
+
+        // commit changes to board
+        for (int i = 0; i < indexes.size(); i++) {
+            indexes.get(i).set(list.get(i));
+        }
+    }
+
+    // return 2 or 4 (10% probablility for 4)
     protected int newRandomTile() {
-        return (1 + rand.nextInt(2)) * 2;
+        return rand.nextInt(10) == 0 ? 4 : 2;
     }
 
     // switch a random empty tile for a random new tile (NewRandomTile())
