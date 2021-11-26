@@ -7,67 +7,62 @@ import java.util.stream.*;
 
 public class TestHexagonalGameLogic extends HexagonalGameLogic {
     private List<List<Integer>> orig_board = Arrays.asList(
-        new ArrayList<>(Arrays.asList( 0, 16,  0)),
-        new ArrayList<>(Arrays.asList( 0,  2,  0,  0)),
-        new ArrayList<>(Arrays.asList( 0,  2,  2, 16,  0)),
-        new ArrayList<>(Arrays.asList(32,  0,  0,  0)),
-        new ArrayList<>(Arrays.asList(32,  4,  0))
+        new ArrayList<>(Arrays.asList( 0,  4,  0)),
+        new ArrayList<>(Arrays.asList( 0,  1,  0,  0)),
+        new ArrayList<>(Arrays.asList( 0,  1,  1,  4,  0)),
+        new ArrayList<>(Arrays.asList( 5,  0,  0,  0)),
+        new ArrayList<>(Arrays.asList( 5,  2,  0))
     );
 
     private Map<Direction, List<List<Integer>>> moves = new EnumMap<>(Direction.class);
 
     {
-        // Arrays.asList( 0, 16,  0),
-        // Arrays.asList( 0,  2,  0,  0),
-        // Arrays.asList( 0,  2,  2, 16,  0),
-        // Arrays.asList(32,  0,  0,  0),
-        // Arrays.asList(32,  4,  0)
         moves.put(Direction.Left, Arrays.asList(
-            Arrays.asList(16,  0,  0),
-            Arrays.asList( 2,  0,  0,  0),
-            Arrays.asList( 4, 16,  0,  0,  0),
-            Arrays.asList(32,  0,  0,  0),
-            Arrays.asList(32,  4,  0)
+            Arrays.asList( 4,  0,  0),
+            Arrays.asList( 1,  0,  0,  0),
+            Arrays.asList( 2,  4,  0,  0,  0),
+            Arrays.asList( 5,  0,  0,  0),
+            Arrays.asList( 5,  2,  0)
         ));
 
         moves.put(Direction.Right, Arrays.asList(
-            Arrays.asList( 0,  0, 16),
-            Arrays.asList( 0,  0,  0,  2),
-            Arrays.asList( 0,  0,  0,  4, 16),
-            Arrays.asList( 0,  0,  0, 32),
-            Arrays.asList( 0, 32,  4)
+            Arrays.asList( 0,  0,  4),
+            Arrays.asList( 0,  0,  0,  1),
+            Arrays.asList( 0,  0,  0,  2,  4),
+            Arrays.asList( 0,  0,  0,  5),
+            Arrays.asList( 0,  5,  2)
         ));
 
         moves.put(Direction.UpLeft, Arrays.asList(
-            Arrays.asList(         4, 32,  0),
-            Arrays.asList(     2,  0,  0,  0),
-            Arrays.asList(64,  4,  0,  0,  0),
+            Arrays.asList(         2,  5,  0),
+            Arrays.asList(     1,  0,  0,  0),
+            Arrays.asList( 6,  2,  0,  0,  0),
             Arrays.asList( 0,  0,  0,  0),
             Arrays.asList( 0,  0,  0)
         ));
 
         moves.put(Direction.UpRight, Arrays.asList(
-            Arrays.asList( 0, 16,  2),
-            Arrays.asList( 0,  4, 32, 16),
-            Arrays.asList( 0, 32,  0,  4,  0),
+            Arrays.asList( 0,  4,  1),
+            Arrays.asList( 0,  2,  5,  4),
+            Arrays.asList( 0,  5,  0,  2,  0),
             Arrays.asList(     0,  0,  0,  0),
             Arrays.asList(         0,  0,  0)
         ));
 
         moves.put(Direction.DownLeft, Arrays.asList(
             Arrays.asList( 0,  0,  0),
-            Arrays.asList( 0, 16,  0,  0),
-            Arrays.asList( 0,  4,  0,  0,  0),
-            Arrays.asList(    32,  2, 16,  0),
-            Arrays.asList(        32,  4,  0)
+            Arrays.asList( 0,  4,  0,  0),
+            Arrays.asList( 0,  2,  0,  0,  0),
+            Arrays.asList(     5,  1,  4,  0),
+            Arrays.asList(         5,  2,  0)
         ));
 
         moves.put(Direction.DownRight, Arrays.asList(
             Arrays.asList(         0,  0,  0),
             Arrays.asList(     0,  0,  0,  0),
             Arrays.asList( 0,  0,  0,  0,  0),
-            Arrays.asList( 0,  2,  0, 32),
-            Arrays.asList(64,  4,  4)
+            Arrays.asList( 0,  1,  0,  5),
+            Arrays.asList( 6,  2,  2)
         ));
     }
 

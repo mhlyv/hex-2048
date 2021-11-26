@@ -3,6 +3,7 @@ package graphics;
 import java.awt.*;
 import logic.StandardGameLogic;
 import java.awt.event.KeyEvent;
+import java.math.BigInteger;
 
 public class StandardGamePanel extends GamePanel {
     public StandardGamePanel(Integer size) {
@@ -35,7 +36,9 @@ public class StandardGamePanel extends GamePanel {
                 g.fillRect(r.x, r.y, r.width, r.height);
                 g.setColor(Color.BLACK);
                 g.drawRect(r.x, r.y, r.width, r.height);
-                drawCenterText(g, tile == 0 ? "" : Long.toString(tile), r);
+
+                BigInteger two = new BigInteger("2");
+                drawCenterText(g, tile == 0 ? "" : two.pow(tile).toString(), r);
             }
         }
     }

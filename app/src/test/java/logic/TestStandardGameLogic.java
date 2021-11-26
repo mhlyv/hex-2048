@@ -7,10 +7,10 @@ import java.util.stream.*;
 
 public class TestStandardGameLogic extends StandardGameLogic {
     List<List<Integer>> orig_board = Arrays.asList(
-        new ArrayList<>(Arrays.asList(0,  2,  2,  4)),
-        new ArrayList<>(Arrays.asList(0,  2,  2,  4)),
-        new ArrayList<>(Arrays.asList(0,  2,  2,  4)),
-        new ArrayList<>(Arrays.asList(8, 16, 16, 32))
+        new ArrayList<>(Arrays.asList(0,  1,  1,  2)),
+        new ArrayList<>(Arrays.asList(0,  1,  1,  2)),
+        new ArrayList<>(Arrays.asList(0,  1,  1,  2)),
+        new ArrayList<>(Arrays.asList(3,  4,  4,  5))
     );
 
     Map<Direction, List<List<Integer>>> moves = new EnumMap<>(Direction.class);
@@ -18,34 +18,34 @@ public class TestStandardGameLogic extends StandardGameLogic {
     {
         moves.put(Direction.Up,
             Arrays.asList(
-                Arrays.asList(8,  4,  4,  8),
-                Arrays.asList(0,  2,  2,  4),
-                Arrays.asList(0, 16, 16, 32),
+                Arrays.asList(3,  2,  2,  3),
+                Arrays.asList(0,  1,  1,  2),
+                Arrays.asList(0,  4,  4,  5),
                 Arrays.asList(0,  0,  0,  0)
             )
         );
         moves.put(Direction.Down,
             Arrays.asList(
                 Arrays.asList(0,  0,  0,  0),
-                Arrays.asList(0,  2,  2,  4),
-                Arrays.asList(0,  4,  4,  8),
-                Arrays.asList(8, 16, 16, 32)
+                Arrays.asList(0,  1,  1,  2),
+                Arrays.asList(0,  2,  2,  3),
+                Arrays.asList(3,  4,  4,  5)
             )
         );
         moves.put(Direction.Left,
             Arrays.asList(
-                Arrays.asList(4,  4,  0,  0),
-                Arrays.asList(4,  4,  0,  0),
-                Arrays.asList(4,  4,  0,  0),
-                Arrays.asList(8, 32, 32,  0)
+                Arrays.asList(2,  2,  0,  0),
+                Arrays.asList(2,  2,  0,  0),
+                Arrays.asList(2,  2,  0,  0),
+                Arrays.asList(3,  5,  5,  0)
             )
         );
         moves.put(Direction.Right,
             Arrays.asList(
-                Arrays.asList(0, 0,  4,  4),
-                Arrays.asList(0, 0,  4,  4),
-                Arrays.asList(0, 0,  4,  4),
-                Arrays.asList(0, 8, 32, 32)
+                Arrays.asList(0, 0,  2,  2),
+                Arrays.asList(0, 0,  2,  2),
+                Arrays.asList(0, 0,  2,  2),
+                Arrays.asList(0, 3,  5,  5)
             )
         );
     }

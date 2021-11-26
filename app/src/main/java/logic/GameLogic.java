@@ -91,7 +91,7 @@ public abstract class GameLogic implements Serializable {
         for (int i = 0; i < list.size() - 1; i++) {
             if (list.get(i).equals(list.get(i + 1))) {
                 int removed = list.remove(i + 1);
-                list.set(i, removed * 2);
+                list.set(i, removed + 1);
             }
         }
 
@@ -117,7 +117,7 @@ public abstract class GameLogic implements Serializable {
 
     // return 2 or 4 (10% probablility for 4)
     protected int newRandomTile() {
-        return rand.nextInt(10) == 0 ? 4 : 2;
+        return rand.nextInt(10) == 0 ? 2 : 1;
     }
 
     // switch a random empty tile for a random new tile (NewRandomTile())

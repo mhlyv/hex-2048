@@ -3,6 +3,7 @@ package graphics;
 import java.awt.*;
 import logic.HexagonalGameLogic;
 import java.awt.event.KeyEvent;
+import java.math.BigInteger;
 
 public class HexagonalGamePanel extends GamePanel {
 
@@ -61,7 +62,8 @@ public class HexagonalGamePanel extends GamePanel {
                     W,
                     H / 2
                 );
-                drawCenterText(g, tile == 0 ? "" : Long.toString(tile), r);
+                BigInteger two = new BigInteger("2");
+                drawCenterText(g, tile == 0 ? "" : two.pow(tile).toString(), r);
 
                 x += W;
             }

@@ -38,13 +38,13 @@ public class TestGameLogic extends GameLogic {
         }
 
         {
-            board.add(new ArrayList<>(Arrays.asList(128, 128, 32, 16)));
+            board.add(new ArrayList<>(Arrays.asList(3, 3, 2, 1)));
             final int y = board.size() - 1;
             collapseLeftIndirect(
                 IntStream.range(0, board.get(y).size())
                 .mapToObj(x -> new Index(x, y))
                 .collect(Collectors.toList()));
-            assertTrue("unmodified", board.get(y).equals(Arrays.asList(256, 32, 16, 0)));
+            assertTrue("unmodified", board.get(y).equals(Arrays.asList(4, 2, 1, 0)));
         }
 
         {
@@ -54,7 +54,7 @@ public class TestGameLogic extends GameLogic {
                 IntStream.range(0, board.get(y).size())
                 .mapToObj(x -> new Index(x, y))
                 .collect(Collectors.toList()));
-            assertTrue("multiple collapse", board.get(y).equals(Arrays.asList(4, 8, 8, 0, 0)));
+            assertTrue("multiple collapse", board.get(y).equals(Arrays.asList(3, 8, 5, 0, 0)));
         }
     }
 
@@ -68,27 +68,27 @@ public class TestGameLogic extends GameLogic {
         collapseLeft(list);
         assertTrue("unmodified", list.equals(Arrays.asList(1, 2, 3, 4, 5)));
 
-        list = new ArrayList<>(Arrays.asList(128, 128, 32, 16));
+        list = new ArrayList<>(Arrays.asList(3, 3, 2, 1));
         collapseLeft(list);
-        assertTrue("single collapse", list.equals(Arrays.asList(256, 32, 16, 0)));
+        assertTrue("single collapse", list.equals(Arrays.asList(4, 2, 1, 0)));
 
         list = new ArrayList<>(Arrays.asList(2, 2, 8, 4, 4));
         collapseLeft(list);
-        assertTrue("multiple collapse", list.equals(Arrays.asList(4, 8, 8, 0, 0)));
+        assertTrue("multiple collapse", list.equals(Arrays.asList(3, 8, 5, 0, 0)));
     }
 
     @Test
     public void testNewRandomTile() {
+        int c1 = 0;
         int c2 = 0;
-        int c4 = 0;
 
-        while (c2 < 10 && c4 < 10) {
+        while (c1 < 10 && c2 < 10) {
             int n = newRandomTile();
-            assertTrue(n == 2 || n == 4);
-            if (n == 2) {
+            assertTrue(n == 1 || n == 2);
+            if (n == 1) {
+                c1++;
+            } else if (n == 2) {
                 c2++;
-            } else if (n == 4) {
-                c4++;
             }
         }
     }
