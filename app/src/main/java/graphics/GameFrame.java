@@ -104,6 +104,20 @@ public class GameFrame extends JFrame {
         load.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                // offer to save game
+                if (GameFrame.this.gp != null) {
+                    int option = JOptionPane.showConfirmDialog(null, "Save game?");
+                    if (option == JOptionPane.OK_OPTION) {
+                        if (!save()) {
+                            return;
+                        }
+                    }
+
+                    if (option == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                }
+
                 JFileChooser fc = new JFileChooser();
                 fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
                 int option = fc.showOpenDialog(null);

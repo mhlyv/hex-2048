@@ -84,7 +84,7 @@ public abstract class GamePanel extends JPanel {
         return gp;
     }
 
-    private int log2(int i) {
+    protected int log2(int i) {
         int n = 0;
         while (i >> 1 != 0) {
             n++;

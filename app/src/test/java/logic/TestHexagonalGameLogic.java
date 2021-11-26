@@ -134,4 +134,15 @@ public class TestHexagonalGameLogic extends HexagonalGameLogic {
             assertEquals(1, diffcounter);
         }
     }
+
+    @Test
+    public void testGetTile() {
+        board = Arrays.asList(Arrays.asList(0));
+        assertEquals(0, getTile(0, 0));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalMove() {
+        move(Direction.Up);
+    }
 }

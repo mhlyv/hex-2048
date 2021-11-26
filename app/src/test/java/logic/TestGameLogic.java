@@ -105,4 +105,37 @@ public class TestGameLogic extends GameLogic {
         addNewRandomTile();
         assertTrue(board.get(0).get(0) != 0);
     }
+
+    @Test
+    public void testUndo() {
+        List<List<Integer>> b = Arrays.asList(Arrays.asList(1));
+        board = b;
+        updateUndo();
+        board = Arrays.asList(Arrays.asList(2));
+        undo();
+        assertEquals("has undo", b, board);
+        undo();
+        assertEquals("no undo", b, board);
+    }
+
+    @Test
+    public void testMove() {
+        // the stored states shouldn't change if the board doesn't change on move
+        board = Arrays.asList(Arrays.asList(1));
+        states.add(board.stream().map(row -> new ArrayList<>(row)).collect(Collectors.toList()));
+        int hash = states.hashCode();
+        move(Direction.Up);
+        assertEquals(hash, states.hashCode());
+    }
+
+    @Test
+    public void testGetNumberOfTiles() {
+        final int y = 10;
+        final int x = 11;
+        board = IntStream.range(0, y)
+            .mapToObj(i -> IntStream.range(0, x).mapToObj(j -> j).collect(Collectors.toList()))
+            .collect(Collectors.toList());
+
+        assertEquals(x * y, getNumberOfTiles());
+    }
 }

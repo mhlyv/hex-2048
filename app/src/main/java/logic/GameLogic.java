@@ -58,7 +58,7 @@ public abstract class GameLogic implements Serializable {
     public void move(Direction d) {
         updateUndo();
         moveBoard(d);
-        if (states.getFirst().equals(board)) {
+        if (states.size() != 0 && states.getFirst().equals(board)) {
             // if the board didn't change, dont save state
             states.removeFirst();
         } else {
@@ -123,16 +123,7 @@ public abstract class GameLogic implements Serializable {
     // switch a random empty tile for a random new tile (NewRandomTile())
     // if no empty tiles were found, `end` is set to true
     protected void addNewRandomTile() {
-        class Vec {
-            public int x;
-            public int y;
-            Vec(int x, int y) {
-                this.x = x;
-                this.y = y;
-            }
-        }
-
-        List<Vec> emptyTiles = new ArrayList<Vec>();
+        List<Index> emptyTiles = new ArrayList<>();
 
         // find and store all empty tiles
         int y = 0;
@@ -140,7 +131,7 @@ public abstract class GameLogic implements Serializable {
             int x = 0;
             for (int tile : row) {
                 if (tile == 0) {
-                    emptyTiles.add(new Vec(x, y));
+                    emptyTiles.add(new Index(x, y));
                 }
                 x++;
             }
@@ -149,10 +140,10 @@ public abstract class GameLogic implements Serializable {
 
         if (emptyTiles.size() != 0) {
             // select random empty tile
-            Vec selected = emptyTiles.get(rand.nextInt(emptyTiles.size()));
+            Index selected = emptyTiles.get(rand.nextInt(emptyTiles.size()));
 
             // fill with a new random tile
-            board.get(selected.y).set(selected.x, newRandomTile());
+            selected.set(newRandomTile());
         }
     }
 }
