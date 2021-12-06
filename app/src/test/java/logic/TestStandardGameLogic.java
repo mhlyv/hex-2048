@@ -110,42 +110,4 @@ public class TestStandardGameLogic extends StandardGameLogic {
     public void testIllegalMove() {
         move(Direction.DownLeft);
     }
-
-    @Test
-    public void testHasEnded() {
-        board = Arrays.asList();
-        assertTrue("empty", hasEnded());
-
-        board = Arrays.asList(
-            Arrays.asList(1, 2, 3),
-            Arrays.asList(4, 5, 6),
-            Arrays.asList(7, 8, 0)
-        );
-
-        assertFalse("has zero", hasEnded());
-
-        board = Arrays.asList(
-            Arrays.asList(1, 2, 0),
-            Arrays.asList(4, 5, 6),
-            Arrays.asList(7, 8, 9)
-        );
-
-        assertFalse("has zero first row", hasEnded());
-
-        board = Arrays.asList(
-            Arrays.asList(1, 2, 3),
-            Arrays.asList(4, 5, 6),
-            Arrays.asList(7, 5, 9)
-        );
-
-        assertFalse("has collapsable", hasEnded());
-
-        board = Arrays.asList(
-            Arrays.asList(1, 2, 3),
-            Arrays.asList(4, 5, 6),
-            Arrays.asList(7, 8, 9)
-        );
-
-        assertTrue(hasEnded());
-    }
 }

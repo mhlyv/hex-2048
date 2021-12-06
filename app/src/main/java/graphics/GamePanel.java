@@ -13,13 +13,31 @@ public abstract class GamePanel extends JPanel {
     protected GameLogic gl;
     protected Map<Integer, GameLogic.Direction> keymap;
     protected transient Optional<String> filename;
+    protected DrawPanel game;
+    private JLabel score;
 
     GamePanel(GameLogic gl) {
         setFocusable(true);
         this.gl = gl;
         keymap = new HashMap<>();
         filename = Optional.empty();
+        game = new DrawPanel();
+        score = new JLabel();
+
+        setLayout(new BorderLayout());
+
+        add(score, BorderLayout.NORTH);
+        add(game, BorderLayout.CENTER);
+
         activate();
+    }
+
+    protected class DrawPanel extends JPanel {
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            drawGame(g);
+        }
     }
 
     protected void activate() {
@@ -110,6 +128,7 @@ public abstract class GamePanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        drawGame(g);
+        game.repaint();
+        score.setText("Score: " + gl.getScore());
     }
 }

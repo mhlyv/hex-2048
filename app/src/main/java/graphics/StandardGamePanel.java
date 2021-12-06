@@ -17,7 +17,7 @@ public class StandardGamePanel extends GamePanel {
 
     @Override
     protected void drawGame(Graphics g) {
-        Dimension size = getSize();
+        Dimension size = game.getSize();
         int tileSize = Math.min(size.height, size.width) / gl.getSize();
         Dimension offset = new Dimension(
             (size.width  - tileSize * gl.getSize()) / 2,
@@ -37,8 +37,7 @@ public class StandardGamePanel extends GamePanel {
                 g.setColor(Color.BLACK);
                 g.drawRect(r.x, r.y, r.width, r.height);
 
-                BigInteger two = new BigInteger("2");
-                drawCenterText(g, tile == 0 ? "" : two.pow(tile).toString(), r);
+                drawCenterText(g, tile == 0 ? "" : BigInteger.TWO.pow(tile).toString(), r);
             }
         }
     }

@@ -1,18 +1,54 @@
 package logic;
 
 import java.io.*;
+import java.math.*;
 import java.util.*;
 import java.util.stream.*;
     
 public abstract class GameLogic implements Serializable {
     protected List<List<Integer>> board;
-    protected Deque<List<List<Integer>>> states;
+    protected Deque<GameState> states;
     protected final int maxUndo = 3;
+    protected BigInteger score;
     private Random rand;
 
     GameLogic() {
+        score = BigInteger.ZERO;
         rand = new Random();
         states = new LinkedList<>();
+    }
+
+    private class GameState implements Serializable {
+        protected List<List<Integer>> board;
+        protected BigInteger score;
+
+        GameState() {
+            board = new ArrayList<>(GameLogic.this.board.stream()
+                .map(r -> new ArrayList<>(r))
+                .collect(Collectors.toList()));
+            score = GameLogic.this.score;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            } else if (!(obj instanceof GameState)) {
+                return false;
+            } else {
+                GameState gs = (GameState) obj;
+                return board.equals(gs.board) && score.equals(gs.score);
+            }
+        }
+
+        public void restore() {
+            GameLogic.this.board = board;
+            GameLogic.this.score = score;
+        }
+
+        public void save() {
+            GameLogic.this.states.addFirst(new GameState());
+        }
     }
 
     protected class Index {
@@ -38,11 +74,16 @@ public abstract class GameLogic implements Serializable {
         UpLeft, UpRight, DownLeft, DownRight
     }
 
+    public String getScore() {
+        return score.toString();
+    }
+
     protected abstract void moveBoard(Direction d) throws IllegalArgumentException;
 
     protected void updateUndo() {
         // push state of board
-        states.addFirst(board.stream().map(row -> new ArrayList<>(row)).collect(Collectors.toList()));
+        GameState gs = new GameState();
+        gs.save();
 
         while (states.size() > maxUndo) {
             states.removeLast();
@@ -51,23 +92,23 @@ public abstract class GameLogic implements Serializable {
 
     public void undo() {
         if (states.size() > 0) {
-            board = states.removeFirst();
+            GameState gs = states.removeFirst();
+            gs.restore();
         }
     }
 
     public void move(Direction d) {
         updateUndo();
         moveBoard(d);
-        if (states.size() != 0 && states.getFirst().equals(board)) {
-            // if the board didn't change, dont save state
+        GameState gs = new GameState();
+        if (states.size() != 0 && states.getFirst().equals(gs)) {
+            // if the game state didn't change, dont save state
             states.removeFirst();
         } else {
-            // if the board changed add new random tile
+            // if the game state changed add new random tile
             addNewRandomTile();
         }
     }
-
-    public abstract boolean hasEnded();
 
     public abstract int getSize();
     public abstract int getTile(int x, int y);
@@ -92,6 +133,7 @@ public abstract class GameLogic implements Serializable {
             if (list.get(i).equals(list.get(i + 1))) {
                 int removed = list.remove(i + 1);
                 list.set(i, removed + 1);
+                score = score.add(BigInteger.TWO.pow(removed + 1));
             }
         }
 

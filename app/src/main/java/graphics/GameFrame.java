@@ -149,7 +149,7 @@ public class GameFrame extends JFrame {
         }
     }
 
-    public void addGamePanel(GamePanel gp) {
+    private void addGamePanel(GamePanel gp) {
         removeGamePanel();
         this.gp = gp;
         add(gp, BorderLayout.CENTER);

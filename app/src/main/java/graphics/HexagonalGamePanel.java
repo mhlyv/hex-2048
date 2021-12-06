@@ -16,6 +16,7 @@ public class HexagonalGamePanel extends GamePanel {
         keymap.put(KeyEvent.VK_E,    HexagonalGameLogic.Direction.UpRight);
         keymap.put(KeyEvent.VK_Z,  HexagonalGameLogic.Direction.DownLeft);
         keymap.put(KeyEvent.VK_X,  HexagonalGameLogic.Direction.DownRight);
+        keymap.put(KeyEvent.VK_Y,  HexagonalGameLogic.Direction.DownRight);
     }
 
     private Polygon getHexagon(int x, int y, int r) {
@@ -31,7 +32,7 @@ public class HexagonalGamePanel extends GamePanel {
 
     @Override
     protected void drawGame(Graphics g) {
-        Dimension size = getSize();
+        Dimension size = game.getSize();
         int N = gl.getSize();
         int D = 2 * N - 1;
         int R = Math.min(
@@ -62,7 +63,7 @@ public class HexagonalGamePanel extends GamePanel {
                     W,
                     H / 2
                 );
-                BigInteger two = new BigInteger("2");
+                BigInteger two = BigInteger.TWO;
                 drawCenterText(g, tile == 0 ? "" : two.pow(tile).toString(), r);
 
                 x += W;

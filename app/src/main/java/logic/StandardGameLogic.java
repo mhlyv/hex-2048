@@ -89,35 +89,4 @@ public class StandardGameLogic extends GameLogic {
                 throw new IllegalArgumentException();
         }
     }
-
-    @Override
-    public boolean hasEnded() {
-        int size = board.size();
-
-        if (size == 0) {
-            return true;
-        }
-
-        for (int y = 1; y < size; y++) {
-            for (int x = 0; x < size - 1; x++) {
-                int tile = board.get(y).get(x);
-                int tileAbove = board.get(y - 1).get(x);
-                int tileRight = board.get(y).get(x + 1);
-
-                if (tile == 0 || tileAbove == 0 || tileRight == 0 ||
-                    tile == tileAbove || tile == tileRight) {
-                    return false;
-                }
-            }
-
-            int tile = board.get(y).get(size - 1);
-            int tileAbove = board.get(y - 1).get(size - 1);
-
-            if (tile == 0 || tileAbove == 0 || tile == tileAbove) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

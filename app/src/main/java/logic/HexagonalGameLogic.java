@@ -214,11 +214,6 @@ public class HexagonalGameLogic extends GameLogic {
     }
 
     @Override
-    public boolean hasEnded() {
-        return false;
-    }
-
-    @Override
     public int getTile(int x, int y) {
         return board.get(y).get(x);
     }

@@ -11,7 +11,6 @@ public class TestGameLogic extends GameLogic {
     @Override public int getSize() { return 0; }
     @Override public int getTile(int x, int y) { return 0; }
     @Override protected void moveBoard(Direction d) throws IllegalArgumentException { }
-    @Override public boolean hasEnded() { return false; }
 
     @Test
     public void testCollapseLeft() {
@@ -120,9 +119,9 @@ public class TestGameLogic extends GameLogic {
 
     @Test
     public void testMove() {
+        board = Arrays.asList(new ArrayList<>(Arrays.asList(5, 5)));
+        move(Direction.Left);
         // the stored states shouldn't change if the board doesn't change on move
-        board = Arrays.asList(Arrays.asList(1));
-        states.add(board.stream().map(row -> new ArrayList<>(row)).collect(Collectors.toList()));
         int hash = states.hashCode();
         move(Direction.Up);
         assertEquals(hash, states.hashCode());
